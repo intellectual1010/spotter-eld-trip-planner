@@ -40,6 +40,80 @@ def geocode_location(location):
         "lon": float(result["lon"]),
     }
 
+def search_locations(query, limit=6):
+    query = query.strip()
+
+    if len(query) < 2:
+        return []
+
+    response = requests.get(
+        NOMINATIM_URL,
+        params={
+            "q": query,
+            "format": "json",
+            "limit": limit,
+            "countrycodes": "us",
+            "addressdetails": 1,
+        },
+        headers=HEADERS,
+        timeout=10,
+    )
+
+    response.raise_for_status()
+
+    results = response.json()
+
+    suggestions = []
+
+    for result in results:
+        address = result.get("address", {})
+
+        city = (
+            address.get("city")
+            or address.get("town")
+            or address.get("village")
+            or address.get("municipality")
+            or address.get("county")
+        )
+
+        state = address.get("state")
+        state_code = address.get("ISO3166-2-lvl4", "")
+        postcode = address.get("postcode")
+
+        if state_code.startswith("US-"):
+            state_display = state_code.replace("US-", "")
+        else:
+            state_display = state
+
+        parts = [part for part in [city, state_display] if part]
+
+        if postcode:
+            parts.append(postcode)
+
+        label = ", ".join(parts)
+
+        if not label:
+            label = result["display_name"]
+
+        suggestions.append({
+            "label": label,
+            "display_name": result["display_name"],
+            "lat": float(result["lat"]),
+            "lon": float(result["lon"]),
+        })
+
+    # Remove duplicate labels while preserving order.
+    unique = []
+    seen = set()
+
+    for suggestion in suggestions:
+        key = suggestion["label"].lower()
+
+        if key not in seen:
+            seen.add(key)
+            unique.append(suggestion)
+
+    return unique
 
 def get_route(locations):
     coordinates = ";".join(

@@ -706,3 +706,86 @@ button:disabled {
   color: #718287;
   font-size: 12px;
 }
+
+.location-select {
+  position: relative;
+}
+
+.location-select > label {
+  display: block;
+}
+
+.location-input-wrapper {
+  position: relative;
+}
+
+.location-input-wrapper input {
+  width: 100%;
+}
+
+.location-loading {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #64748b;
+  pointer-events: none;
+}
+
+.location-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+  max-height: 260px;
+  overflow-y: auto;
+
+  background: #ffffff;
+  border: 1px solid #dbe3e8;
+  border-radius: 10px;
+
+  box-shadow:
+    0 12px 30px rgba(15, 23, 42, 0.12),
+    0 2px 6px rgba(15, 23, 42, 0.06);
+}
+
+.location-option {
+  display: block;
+  width: 100%;
+  padding: 11px 14px;
+
+  border: 0;
+  border-bottom: 1px solid #eef2f5;
+  background: #ffffff;
+
+  text-align: left;
+  cursor: pointer;
+}
+
+.location-option:last-child {
+  border-bottom: 0;
+}
+
+.location-option:hover,
+.location-option:focus {
+  background: #f3faf8;
+  outline: none;
+}
+
+.location-option strong {
+  display: block;
+  font-size: 14px;
+  color: #16232a;
+}
+
+.location-option small {
+  display: block;
+  margin-top: 3px;
+
+  font-size: 11px;
+  line-height: 1.35;
+  color: #718096;
+}

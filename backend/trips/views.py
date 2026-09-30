@@ -1,11 +1,29 @@
+import requests
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from .services.routing import calculate_route
+from .services.routing import calculate_route, search_locations
 from .services.hos_engine import HOSEngine
 from .services.eld_generator import generate_daily_logs
 from .services.route_stops import generate_route_stops
+
+@api_view(["GET"])
+def location_search(request):
+    query = request.query_params.get("q", "").strip()
+
+    if len(query) < 2:
+        return Response([])
+
+    try:
+        locations = search_locations(query)
+        return Response(locations)
+
+    except requests.RequestException:
+        return Response(
+            {"error": "Location search service is temporarily unavailable."},
+            status=status.HTTP_502_BAD_GATEWAY,
+        )
 
 @api_view(["POST"])
 def calculate_trip(request):

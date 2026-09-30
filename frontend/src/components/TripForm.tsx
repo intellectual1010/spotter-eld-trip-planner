@@ -5,6 +5,7 @@ import RouteMap from "./RouteMap";
 import HOSTimeline from "./HOSTimeline";
 import ELDLogs from "./ELDLogs";
 import TripSummary from "./TripSummary";
+import LocationSelect from "./LocationSelect";
 
 export default function TripForm() {
   const [currentLocation, setCurrentLocation] = useState("");
@@ -80,38 +81,26 @@ export default function TripForm() {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <label>
-          Current Location
-          <input
-            type="text"
-            placeholder="e.g. Chicago, IL"
-            value={currentLocation}
-            onChange={(e) => setCurrentLocation(e.target.value)}
-            required
-          />
-        </label>
+        <LocationSelect
+          label="Current Location"
+          value={currentLocation}
+          placeholder="e.g. Chicago, IL"
+          onChange={setCurrentLocation}
+        />
 
-        <label>
-          Pickup Location
-          <input
-            type="text"
-            placeholder="e.g. Indianapolis, IN"
-            value={pickupLocation}
-            onChange={(e) => setPickupLocation(e.target.value)}
-            required
-          />
-        </label>
+        <LocationSelect
+          label="Pickup Location"
+          value={pickupLocation}
+          placeholder="e.g. Indianapolis, IN"
+          onChange={setPickupLocation}
+        />
 
-        <label>
-          Drop-off Location
-          <input
-            type="text"
-            placeholder="e.g. Atlanta, GA"
-            value={dropoffLocation}
-            onChange={(e) => setDropoffLocation(e.target.value)}
-            required
-          />
-        </label>
+        <LocationSelect
+          label="Drop-off Location"
+          value={dropoffLocation}
+          placeholder="e.g. Atlanta, GA"
+          onChange={setDropoffLocation}
+        />
 
         <label>
           Current Cycle Used
