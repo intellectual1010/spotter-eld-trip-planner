@@ -169,7 +169,7 @@ export default function TripForm() {
 
               <div>
                 <span>Cycle Remaining</span>
-                <strong>{result.cycle_remaining} hrs</strong>
+                <strong>{result.hos.cycle_remaining} hrs</strong>
               </div>
             </div>
           </div>
