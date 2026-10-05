@@ -1,152 +1,75 @@
-# ELD Trip Planner
+# React + TypeScript + Vite
 
-A full-stack trip planning application for property-carrying commercial drivers. The application calculates a route, generates daily driving schedules, and visualizes estimated Hours of Service (HOS) activity.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Features
+Currently, two official plugins are available:
 
-- Route planning between pickup and delivery locations
-- Location search and route visualization
-- Estimated trip distance and duration
-- Driver Hours of Service calculations
-- Daily driving schedule generation
-- ELD-style log visualization
-- Responsive React interface
-- REST API backend
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## Tech Stack
+## React Compiler
 
-### Frontend
-- React
-- TypeScript
-- Vite
-- CSS
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-### Backend
-- Python
-- Django
-- Django REST Framework
+## Expanding the ESLint configuration
 
-### Routing
-- OSRM (Open Source Routing Machine)
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## Architecture
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-```text
-React / TypeScript
-        |
-        | REST API
-        v
-Django REST Framework
-        |
-        +---- HOS calculation logic
-        |
-        +---- Route processing
-        |
-        v
-      OSRM
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+
 ```
 
-## Getting Started
+You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
 
-### Clone the repository
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-```bash
-git clone https://github.com/intellectual1010/spotter-eld-trip-planner.git
-cd spotter-eld-trip-planner
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+
 ```
-
-### Backend
-
-Create and activate a virtual environment:
-
-```bash
-python -m venv venv
-```
-
-Windows:
-
-```bash
-venv\Scripts\activate
-```
-
-macOS/Linux:
-
-```bash
-source venv/bin/activate
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Run migrations:
-
-```bash
-python manage.py migrate
-```
-
-Start Django:
-
-```bash
-python manage.py runserver
-```
-
-### Frontend
-
-Open the frontend directory:
-
-```bash
-cd frontend
-```
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Start the development server:
-
-```bash
-npm run dev
-```
-
-## API
-
-The backend exposes REST endpoints for trip calculations and location-related operations.
-
-Example:
-
-```text
-POST /api/calculate/
-GET  /api/locations/
-```
-
-The exact request/response structure is defined by the Django REST Framework implementation in this repository.
-
-## HOS Calculations
-
-The application estimates a driver's trip schedule using Hours of Service constraints and divides longer trips into daily driving periods.
-
-The generated logs are intended as a software demonstration and should not be treated as certified ELD records or legal/compliance advice.
-
-## Deployment
-
-The frontend can be deployed independently from the Django API. Make sure the frontend API configuration points to the deployed backend.
-
-## Purpose
-
-This project demonstrates:
-
-- Full-stack application development
-- React and TypeScript
-- Django REST API development
-- Route API integration
-- Business-rule implementation
-- Responsive UI development
-
-## License
-
-This project is intended for portfolio and demonstration purposes.

@@ -1,6 +1,17 @@
-# Spotter ELD Trip Planner
+# ELD Trip Planner
 
-A full-stack trip planning application for property-carrying commercial drivers. The application calculates a route, applies Hours of Service (HOS) planning rules, identifies required breaks/rest periods, and generates daily driver log visualizations.
+A full-stack trip planning application for property-carrying commercial drivers. The application calculates a route, generates daily driving schedules, and visualizes estimated Hours of Service (HOS) activity.
+
+## Features
+
+- Route planning between pickup and delivery locations
+- Location search and route visualization
+- Estimated trip distance and duration
+- Driver Hours of Service calculations
+- Daily driving schedule generation
+- ELD-style log visualization
+- Responsive React interface
+- REST API backend
 
 ## Tech Stack
 
@@ -8,76 +19,134 @@ A full-stack trip planning application for property-carrying commercial drivers.
 - React
 - TypeScript
 - Vite
-- React Leaflet
-- OpenStreetMap
+- CSS
 
 ### Backend
 - Python
 - Django
 - Django REST Framework
-- OSRM routing
-- Nominatim geocoding
 
-## Features
+### Routing
+- OSRM (Open Source Routing Machine)
 
-- Current location, pickup location, and drop-off inputs
-- Current 70-hour cycle usage input
-- Route distance and estimated driving time
-- Interactive route map
-- Pickup and drop-off handling
-- 30-minute break scheduling
-- 11-hour driving-limit handling
-- 14-hour driving-window handling
-- 10-hour rest periods
-- 70-hour / 8-day cycle planning
-- 34-hour restart planning when remaining cycle hours are insufficient
-- Fuel-stop planning for long trips
-- HOS schedule timeline
-- Daily 24-hour ELD log generation
-- Multiple daily log sheets for multi-day trips
-- Responsive UI and input validation
+## Architecture
 
-## Assessment Assumptions
+```text
+React / TypeScript
+        |
+        | REST API
+        v
+Django REST Framework
+        |
+        +---- HOS calculation logic
+        |
+        +---- Route processing
+        |
+        v
+      OSRM
+```
 
-The planner uses the following assumptions:
+## Getting Started
 
-- Property-carrying commercial driver
-- 70-hour / 8-day cycle
-- No adverse driving conditions
-- Pickup requires 1 hour of on-duty time
-- Drop-off requires 1 hour of on-duty time
-- Fueling is planned at least every 1,000 miles
-- A fuel stop is modeled as 30 minutes of on-duty time
-- The calculated trip begins at 00:00 on Day 1 for generated log visualization
+### Clone the repository
 
-Because the application receives only the driver's current cycle-used hours rather than the complete previous eight days of duty history, it cannot reconstruct the rolling 70-hour calculation. When the supplied remaining cycle hours are insufficient, the planner uses a 34-hour restart as a planning strategy before additional on-duty/driving time.
-
-Route stop positions shown on the map are approximate positions along the calculated route. They do not represent specific truck stops, parking facilities, or fuel stations.
-
-## HOS Planning
-
-The scheduling engine accounts for:
-
-- Maximum 11 hours of driving following a qualifying rest period
-- 14-hour driving window
-- 30-minute non-driving break after 8 cumulative hours of driving
-- 10-hour qualifying rest periods
-- 70-hour cycle availability
-- Pickup, drop-off, and fuel on-duty time
-
-The application is a trip-planning demonstration and is not a certified Electronic Logging Device.
-
-## Local Development
+```bash
+git clone https://github.com/intellectual1010/spotter-eld-trip-planner.git
+cd spotter-eld-trip-planner
+```
 
 ### Backend
 
+Create and activate a virtual environment:
+
 ```bash
-cd backend
+python -m venv venv
+```
 
-python3 -m venv venv
+Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+macOS/Linux:
+
+```bash
 source venv/bin/activate
+```
 
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
+```
 
+Run migrations:
+
+```bash
 python manage.py migrate
+```
+
+Start Django:
+
+```bash
 python manage.py runserver
+```
+
+### Frontend
+
+Open the frontend directory:
+
+```bash
+cd frontend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+## API
+
+The backend exposes REST endpoints for trip calculations and location-related operations.
+
+Example:
+
+```text
+POST /api/calculate/
+GET  /api/locations/
+```
+
+The exact request/response structure is defined by the Django REST Framework implementation in this repository.
+
+## HOS Calculations
+
+The application estimates a driver's trip schedule using Hours of Service constraints and divides longer trips into daily driving periods.
+
+The generated logs are intended as a software demonstration and should not be treated as certified ELD records or legal/compliance advice.
+
+## Deployment
+
+The frontend can be deployed independently from the Django API. Make sure the frontend API configuration points to the deployed backend.
+
+## Purpose
+
+This project demonstrates:
+
+- Full-stack application development
+- React and TypeScript
+- Django REST API development
+- Route API integration
+- Business-rule implementation
+- Responsive UI development
+
+## License
+
+This project is intended for portfolio and demonstration purposes.
