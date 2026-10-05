@@ -51,8 +51,8 @@ Django REST Framework
 ### Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_ELD_REPOSITORY.git
-cd YOUR_ELD_REPOSITORY
+git clone https://github.com/intellectual1010/spotter-eld-trip-planner.git
+cd spotter-eld-trip-planner
 ```
 
 ### Backend
@@ -131,15 +131,6 @@ The exact request/response structure is defined by the Django REST Framework imp
 The application estimates a driver's trip schedule using Hours of Service constraints and divides longer trips into daily driving periods.
 
 The generated logs are intended as a software demonstration and should not be treated as certified ELD records or legal/compliance advice.
-
-## Screenshots
-
-Add screenshots here:
-
-```markdown
-![Trip Planner](docs/trip-planner.png)
-![ELD Logs](docs/eld-logs.png)
-```
 
 ## Deployment
 
